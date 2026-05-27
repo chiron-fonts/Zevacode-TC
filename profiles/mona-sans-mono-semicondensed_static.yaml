@@ -1,19 +1,24 @@
 type: static
 cjk_font: embed_fonts/ZevHeiTC/VAR_OTF/ZevHeiTC-N-VF.otf
 blocks: assets/unicode_blocks.txt
+source_root: source_fonts/mona_sans_static
+downloads:
+  - url: https://github.com/github/mona-sans/releases/download/v2.0.27/mona-sans-static-v2.0.27.zip
+    include:
+      - fonts/static/otf/MonaSansMonoSemiCondensed*.otf
 families:
-  - directory_name: ZevCodeTC-MSM-SemiCondensed
+  - directory_name: ZevaCode-TC-Gima-SemiCondensed
     source_filename_prefix: MonaSansMonoSemiCondensed
-    target_filename_prefix: ZevCodeTC-MSM-{variant}-SemiCondensed
+    target_filename_prefix: ZevaCode-TC-{variant}-Gima-SemiCondensed
     source_postscript_name: MonaSansMonoSemiCondensed
-    target_postscript_name: ZevCodeTC-MSM-{variant}-SemiCondensed
+    target_postscript_name: ZevaCode-TC-{variant}-Gima-SemiCondensed
     source_family_name: Mona Sans Mono SemiCondensed
-    target_family_name: ZevCodeTC-MSM-{variant} SemiCondensed
+    target_family_name: ZevaCode {variant} Gima SemiCondensed
     ttf_companion: true
     files:
-      - glob: source_fonts/mona_sans_static/MonaSansMonoSemiCondensed-*.otf
+      - glob: MonaSansMonoSemiCondensed-*.otf
 variants:
-  B:
+  Al:
     # Monospace glyph width is 504.
     cjk_axis: "wdth=100,IDSP=8"
     normalize_width:

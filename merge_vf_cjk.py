@@ -26,6 +26,7 @@ from extract_font import (
 
 TEMPORARY_MASTER_STRIP_TABLES = ("GSUB", "GPOS", "GDEF")
 RESTORED_TARGET_TABLES = ("GDEF", "GPOS", "GSUB", "avar", "STAT", "name", "fvar")
+VARIABLE_NAME_REWRITE_IDS = (1, 3, 4, 6, 16, 18, 21, 25)
 
 
 def format_elapsed(elapsed_seconds: float) -> str:
@@ -493,6 +494,12 @@ def sanitize_postscript_name(value: str) -> str:
     return sanitized
 
 
+def replace_name_fragment(value: str, source: str | None, target: str) -> str:
+    if not source or source not in value:
+        return value
+    return value.replace(source, target)
+
+
 def rename_output_font(font: TTFont, family_name: str, style_name: str | None = None) -> None:
     if "name" not in font:
         raise ValueError("Output font has no name table to update.")
@@ -530,6 +537,52 @@ def rename_output_font(font: TTFont, family_name: str, style_name: str | None = 
         top_dict.FamilyName = family_name
         top_dict.FullName = f"{family_name} {style_name}".strip()
         top_dict.FontName = postscript_name
+
+
+def rename_output_font_by_replacement(
+    font: TTFont,
+    source_family_name: str | None,
+    target_family_name: str | None,
+    source_postscript_name: str | None,
+    target_postscript_name: str | None,
+) -> None:
+    if "name" not in font:
+        raise ValueError("Output font has no name table to update.")
+
+    for record in font["name"].names:
+        if record.nameID not in VARIABLE_NAME_REWRITE_IDS:
+            continue
+        try:
+            original_value = record.toUnicode()
+        except UnicodeDecodeError:
+            continue
+        new_value = original_value
+        if record.nameID in (1, 4, 16, 18, 21):
+            new_value = replace_name_fragment(new_value, source_family_name, target_family_name)
+        if record.nameID in (3, 6, 25):
+            new_value = replace_name_fragment(new_value, source_postscript_name, target_postscript_name)
+        if new_value != original_value:
+            font["name"].setName(
+                new_value,
+                nameID=record.nameID,
+                platformID=record.platformID,
+                platEncID=record.platEncID,
+                langID=record.langID,
+            )
+
+    if "CFF " in font:
+        cff = font["CFF "].cff
+        top_dict = cff.topDictIndex[0]
+        cff.fontNames = [
+            replace_name_fragment(name, source_postscript_name, target_postscript_name)
+            for name in cff.fontNames
+        ]
+        if hasattr(top_dict, "FamilyName"):
+            top_dict.FamilyName = replace_name_fragment(top_dict.FamilyName, source_family_name, target_family_name)
+        if hasattr(top_dict, "FullName"):
+            top_dict.FullName = replace_name_fragment(top_dict.FullName, source_family_name, target_family_name)
+        if hasattr(top_dict, "FontName"):
+            top_dict.FontName = replace_name_fragment(top_dict.FontName, source_postscript_name, target_postscript_name)
 
 
 def refresh_unicode_coverage_metadata(font: TTFont, x_avg_char_width: int | None = None) -> None:
@@ -692,6 +745,12 @@ def rebuild_variable_font(
     target_fonts: dict[str, TTFont],
     output_path: Path,
     output_family_name: str,
+    *,
+    use_replacement_naming: bool,
+    source_family_name: str | None,
+    target_family_name: str | None,
+    source_postscript_name: str | None,
+    target_postscript_name: str | None,
 ) -> None:
     preserved_x_avg_char_width = None
     if "OS/2" in target_font:
@@ -723,7 +782,16 @@ def rebuild_variable_font(
         for table_tag in RESTORED_TARGET_TABLES:
             if table_tag in target_font:
                 variable_font[table_tag] = copy.deepcopy(target_font[table_tag])
-        rename_output_font(variable_font, output_family_name)
+        if use_replacement_naming:
+            rename_output_font_by_replacement(
+                variable_font,
+                source_family_name=source_family_name,
+                target_family_name=target_family_name,
+                source_postscript_name=source_postscript_name,
+                target_postscript_name=target_postscript_name,
+            )
+        else:
+            rename_output_font(variable_font, output_family_name)
         refresh_unicode_coverage_metadata(variable_font, x_avg_char_width=preserved_x_avg_char_width)
 
         ensure_directory_for(output_path)
@@ -737,6 +805,7 @@ def build_report(
     output_path: Path,
     report_path: Path,
     output_family_name: str,
+    target_postscript_name: str | None,
     master_specs: list[dict],
     normalize_width_rules: list[dict[str, object]],
     intervals: list[tuple[int, int]],
@@ -757,7 +826,8 @@ def build_report(
             "blocks": str(blocks_path),
             "output": str(output_path),
             "report": str(report_path),
-            "font_name": output_family_name,
+            "target_family_name": output_family_name,
+            "target_postscript_name": target_postscript_name,
             "normalize_width": serialize_normalize_width_rules(normalize_width_rules) or None,
         },
         "interval_count": len(intervals),
@@ -832,6 +902,10 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help='Override the output font family name. Defaults to "ZevCode-JBM" for JetBrains Mono targets.',
     )
+    parser.add_argument("--source-family-name", default=None, help="Source family root to replace in name records.")
+    parser.add_argument("--target-family-name", default=None, help="Target family root to write into name records.")
+    parser.add_argument("--source-postscript-name", default=None, help="Source PostScript root to replace.")
+    parser.add_argument("--target-postscript-name", default=None, help="Target PostScript root to write.")
     parser.add_argument(
         "--cjk-transform",
         default=None,
@@ -845,6 +919,21 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def validate_replacement_args(args: argparse.Namespace) -> bool:
+    family_pair = (args.source_family_name, args.target_family_name)
+    postscript_pair = (args.source_postscript_name, args.target_postscript_name)
+    if bool(family_pair[0]) != bool(family_pair[1]):
+        raise ValueError("Variable replacement requires both --source-family-name and --target-family-name together.")
+    if bool(postscript_pair[0]) != bool(postscript_pair[1]):
+        raise ValueError(
+            "Variable replacement requires both --source-postscript-name and --target-postscript-name together."
+        )
+    use_replacement_naming = any(value is not None for value in (*family_pair, *postscript_pair))
+    if use_replacement_naming and args.font_name is not None:
+        raise ValueError("Use either --font-name or explicit source/target replacement naming, not both.")
+    return use_replacement_naming
+
+
 def main() -> None:
     build_start = monotonic()
     args = parse_args()
@@ -855,6 +944,7 @@ def main() -> None:
     output_path = Path(args.out)
     report_path = Path(args.report)
     master_config_path = Path(args.master_config) if args.master_config else None
+    use_replacement_naming = validate_replacement_args(args)
 
     ensure_file_exists(target_path, "Target")
     ensure_file_exists(cjk_path, "CJK")
@@ -870,7 +960,9 @@ def main() -> None:
     target_font = TTFont(target_path)
     require_tables(target_font, target_path, "Target", ("glyf", "hmtx", "cmap", "fvar"))
     target_family_name = get_family_name(target_font)
-    output_family_name = args.font_name or ("ZevCode-JBM" if target_family_name == "JetBrains Mono" else target_family_name)
+    output_family_name = args.target_family_name or args.font_name or (
+        "ZevCode-JBM" if target_family_name == "JetBrains Mono" else target_family_name
+    )
 
     cjk_source_font = TTFont(cjk_path)
     require_tables(cjk_source_font, cjk_path, "CJK", ("glyf", "hmtx", "cmap", "fvar"))
@@ -949,7 +1041,18 @@ def main() -> None:
 
     rebuild_start = monotonic()
     log_status("Start rebuilding output variable font...")
-    rebuild_variable_font(target_font, master_specs, target_fonts, output_path, output_family_name)
+    rebuild_variable_font(
+        target_font,
+        master_specs,
+        target_fonts,
+        output_path,
+        output_family_name,
+        use_replacement_naming=use_replacement_naming,
+        source_family_name=args.source_family_name,
+        target_family_name=args.target_family_name,
+        source_postscript_name=args.source_postscript_name,
+        target_postscript_name=args.target_postscript_name,
+    )
     log_status(f"Finished rebuilding output variable font ({format_elapsed(monotonic() - rebuild_start)} elapsed)")
 
     validate_start = monotonic()
@@ -964,6 +1067,7 @@ def main() -> None:
         output_path=output_path,
         report_path=report_path,
         output_family_name=output_family_name,
+        target_postscript_name=args.target_postscript_name,
         master_specs=master_specs,
         normalize_width_rules=normalize_width_rules,
         intervals=intervals,

@@ -112,49 +112,13 @@ jobs:
 
       - name: Prepare source font directories
         run: |
-          mkdir -p source_fonts/jetbrains_mono_vf
-          mkdir -p source_fonts/cascadia_code_vf
-          mkdir -p source_fonts/monaspace_vf
-          mkdir -p source_fonts/jetbrains_mono_static
-          mkdir -p source_fonts/cascadia_code_static
-          mkdir -p source_fonts/monaspace_static
-          mkdir -p source_fonts/mona_sans_static
           mkdir -p embed_fonts/ZevHeiTC/VAR_TTF
           mkdir -p embed_fonts/ZevHeiTC/VAR_OTF
           mkdir -p out
 
       - name: Download upstream fonts for shard
-        shell: bash
-        env:
-          SHARD_PROFILE: ${{ matrix.profile }}
         run: |
-          set -euo pipefail
-          case "$SHARD_PROFILE" in
-            profiles/jetbrains-mono_vf.yaml|profiles/jetbrains-mono_static.yaml)
-              curl -fsSL "https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip" -o /tmp/jetbrains_mono.zip
-              unzip -j /tmp/jetbrains_mono.zip \
-                'fonts/variable/JetBrainsMono\[wght\].ttf' \
-                'fonts/variable/JetBrainsMono-Italic\[wght\].ttf' \
-                -d source_fonts/jetbrains_mono_vf
-              unzip -j /tmp/jetbrains_mono.zip 'fonts/ttf/*.ttf' -d source_fonts/jetbrains_mono_static
-              ;;
-            profiles/cascadia-code_static.yaml)
-              curl -fsSL "https://github.com/microsoft/cascadia-code/releases/download/v2407.24/CascadiaCode-2407.24.zip" -o /tmp/cascadia_code.zip
-              unzip -j /tmp/cascadia_code.zip 'otf/static/*.otf' -d source_fonts/cascadia_code_static
-              ;;
-            profiles/monaspace_static.yaml)
-              curl -fsSL "https://github.com/githubnext/monaspace/releases/download/v1.400/monaspace-static-v1.400.zip" -o /tmp/monaspace_static.zip
-              unzip -j /tmp/monaspace_static.zip 'Static Fonts/*/*.otf' -d source_fonts/monaspace_static
-              ;;
-            profiles/mona-sans-mono_static.yaml|profiles/mona-sans-mono-semicondensed_static.yaml)
-              curl -fsSL "https://github.com/github/mona-sans/releases/download/v2.0.27/mona-sans-static-v2.0.27.zip" -o /tmp/mona_sans_static.zip
-              unzip -j /tmp/mona_sans_static.zip 'fonts/static/otf/MonaSansMono*.otf' -d source_fonts/mona_sans_static
-              ;;
-            *)
-              echo "Unsupported shard profile: $SHARD_PROFILE" >&2
-              exit 1
-              ;;
-          esac
+          python download_profile_sources.py "${{ matrix.profile }}"
 
       - name: Download Zev Hei TC sources
         run: |
@@ -169,7 +133,6 @@ jobs:
           SHARD_PROFILE: ${{ matrix.profile }}
           SHARD_VARIANT: ${{ matrix.variant }}
           SHARD_FAMILY: ${{ matrix.family }}
-          SHARD_CODE: ${{ matrix.code }}
         run: |
           set -euo pipefail
           export ZEVCODE_CJK_CACHE_DIR="$(mktemp -d)"
@@ -177,9 +140,6 @@ jobs:
           command=(python build_profile.py "$SHARD_PROFILE" --variant "$SHARD_VARIANT")
           if [[ -n "$SHARD_FAMILY" ]]; then
             command+=(--family "$SHARD_FAMILY")
-          fi
-          if [[ -n "$SHARD_CODE" ]]; then
-            command+=(--code "$SHARD_CODE")
           fi
           "${command[@]}"
 
@@ -207,11 +167,24 @@ jobs:
           path: out
           merge-multiple: true
 
-      - name: Zip static family outputs
+      - name: Package release outputs
         shell: bash
         run: |
           set -euo pipefail
           shopt -s nullglob
+          mkdir -p out/variable
+          for dir in out/variable/*/; do
+            profile="${dir%/}"
+            profile="${profile##*/}"
+            (
+              cd "${dir}"
+              files=(./*.ttf)
+              if [[ ${#files[@]} -gt 0 ]]; then
+                zip -q "../${profile}.zip" "${files[@]}"
+              fi
+            )
+          done
+
           mkdir -p out/static
           for dir in out/static/*/; do
             family="${dir%/}"
@@ -234,7 +207,7 @@ jobs:
         with:
           name: built-fonts
           path: |
-            out/*.ttf
+            out/variable/*.zip
             out/static/*.zip
           if-no-files-found: error
 
@@ -246,7 +219,7 @@ jobs:
           set -euo pipefail
           shopt -s nullglob
           printf '%s\n' "${{ inputs.release_notes }}" > /tmp/release-notes.md
-          assets=(out/*.ttf out/static/*.zip)
+          assets=(out/variable/*.zip out/static/*.zip)
           if [[ ${#assets[@]} -eq 0 ]]; then
             echo "No release assets were produced." >&2
             exit 1

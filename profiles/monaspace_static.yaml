@@ -1,55 +1,60 @@
 type: static
 cjk_font: embed_fonts/ZevHeiTC/VAR_OTF/ZevHeiTC-N-VF.otf
 blocks: assets/unicode_blocks.txt
+source_root: source_fonts/monaspace_static
+downloads:
+  - url: https://github.com/githubnext/monaspace/releases/download/v1.400/monaspace-static-v1.400.zip
+    include:
+      - Static Fonts/*/*.otf
 families:
-  - directory_name: ZevCodeTC-GMA
-    target_filename_prefix: ZevCodeTC-GMA-{variant}
+  - directory_name: ZevaCode-TC-GimaSpaceArg
+    target_filename_prefix: ZevaCode-TC-{variant}-GimaSpaceArg
     source_filename_prefix: MonaspaceArgon
     source_postscript_name: MonaspaceArgon
-    target_postscript_name: ZevCodeTC-GMA-{variant}
+    target_postscript_name: ZevaCode-TC-{variant}-GimaSpaceArg
     source_family_name: Monaspace Argon
-    target_family_name: ZevCodeTC-GMA-{variant}
+    target_family_name: ZevaCode {variant} GimaSpaceArg
     ttf_companion: true
     files:
-      - source_fonts/monaspace_static/MonaspaceArgon-Regular.otf
-      - source_fonts/monaspace_static/MonaspaceArgon-Italic.otf
-      - source_fonts/monaspace_static/MonaspaceArgon-ExtraLight.otf
-      - source_fonts/monaspace_static/MonaspaceArgon-ExtraLightItalic.otf
-      - source_fonts/monaspace_static/MonaspaceArgon-Light.otf
-      - source_fonts/monaspace_static/MonaspaceArgon-LightItalic.otf
-      - source_fonts/monaspace_static/MonaspaceArgon-Medium.otf
-      - source_fonts/monaspace_static/MonaspaceArgon-MediumItalic.otf
-      - source_fonts/monaspace_static/MonaspaceArgon-SemiBold.otf
-      - source_fonts/monaspace_static/MonaspaceArgon-SemiBoldItalic.otf
-      - source_fonts/monaspace_static/MonaspaceArgon-Bold.otf
-      - source_fonts/monaspace_static/MonaspaceArgon-BoldItalic.otf
-      - source_fonts/monaspace_static/MonaspaceArgon-ExtraBold.otf
-      - source_fonts/monaspace_static/MonaspaceArgon-ExtraBoldItalic.otf
-  - directory_name: ZevCodeTC-GMN
-    target_filename_prefix: ZevCodeTC-GMN-{variant}
+      - MonaspaceArgon-Regular.otf
+      - MonaspaceArgon-Italic.otf
+      - MonaspaceArgon-ExtraLight.otf
+      - MonaspaceArgon-ExtraLightItalic.otf
+      - MonaspaceArgon-Light.otf
+      - MonaspaceArgon-LightItalic.otf
+      - MonaspaceArgon-Medium.otf
+      - MonaspaceArgon-MediumItalic.otf
+      - MonaspaceArgon-SemiBold.otf
+      - MonaspaceArgon-SemiBoldItalic.otf
+      - MonaspaceArgon-Bold.otf
+      - MonaspaceArgon-BoldItalic.otf
+      - MonaspaceArgon-ExtraBold.otf
+      - MonaspaceArgon-ExtraBoldItalic.otf
+  - directory_name: ZevaCode-TC-GimaSpaceNeo
+    target_filename_prefix: ZevaCode-TC-{variant}-GimaSpaceNeo
     source_filename_prefix: MonaspaceNeon
     source_postscript_name: MonaspaceNeon
-    target_postscript_name: ZevCodeTC-GMN-{variant}
+    target_postscript_name: ZevaCode-TC-{variant}-GimaSpaceNeo
     source_family_name: Monaspace Neon
-    target_family_name: ZevCodeTC-GMN-{variant}
+    target_family_name: ZevaCode {variant} GimaSpaceNeo
     ttf_companion: true
     files:
-      - source_fonts/monaspace_static/MonaspaceNeon-Regular.otf
-      - source_fonts/monaspace_static/MonaspaceNeon-Italic.otf
-      - source_fonts/monaspace_static/MonaspaceNeon-ExtraLight.otf
-      - source_fonts/monaspace_static/MonaspaceNeon-ExtraLightItalic.otf
-      - source_fonts/monaspace_static/MonaspaceNeon-Light.otf
-      - source_fonts/monaspace_static/MonaspaceNeon-LightItalic.otf
-      - source_fonts/monaspace_static/MonaspaceNeon-Medium.otf
-      - source_fonts/monaspace_static/MonaspaceNeon-MediumItalic.otf
-      - source_fonts/monaspace_static/MonaspaceNeon-SemiBold.otf
-      - source_fonts/monaspace_static/MonaspaceNeon-SemiBoldItalic.otf
-      - source_fonts/monaspace_static/MonaspaceNeon-Bold.otf
-      - source_fonts/monaspace_static/MonaspaceNeon-BoldItalic.otf
-      - source_fonts/monaspace_static/MonaspaceNeon-ExtraBold.otf
-      - source_fonts/monaspace_static/MonaspaceNeon-ExtraBoldItalic.otf
+      - MonaspaceNeon-Regular.otf
+      - MonaspaceNeon-Italic.otf
+      - MonaspaceNeon-ExtraLight.otf
+      - MonaspaceNeon-ExtraLightItalic.otf
+      - MonaspaceNeon-Light.otf
+      - MonaspaceNeon-LightItalic.otf
+      - MonaspaceNeon-Medium.otf
+      - MonaspaceNeon-MediumItalic.otf
+      - MonaspaceNeon-SemiBold.otf
+      - MonaspaceNeon-SemiBoldItalic.otf
+      - MonaspaceNeon-Bold.otf
+      - MonaspaceNeon-BoldItalic.otf
+      - MonaspaceNeon-ExtraBold.otf
+      - MonaspaceNeon-ExtraBoldItalic.otf
 variants:
-  S:
+  Og:
     cjk_axis: "wdth=100,IDSP=0"
     cjk_transform: "2,0,0,2,0,5"
     italic:
@@ -57,7 +62,7 @@ variants:
     normalize_width:
       - codepoints: [[A960, A97F], [AC00, D7AF], [D7B0, D7FF]]
         width: 1000
-  B:
+  Al:
     # Monospace glyph width is 1240 :\
     cjk_axis: "wdth=105,IDSP=190"
     cjk_transform: "2,0,0,2,0,5"

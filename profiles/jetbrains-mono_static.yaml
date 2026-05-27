@@ -1,35 +1,40 @@
 type: static
 cjk_font: embed_fonts/ZevHeiTC/VAR_TTF/ZevHeiTC-N-VF.ttf
 blocks: assets/unicode_blocks.txt
+source_root: source_fonts/jetbrains_mono_static
+downloads:
+  - url: https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip
+    include:
+      - fonts/ttf/*.ttf
 families:
-  - directory_name: ZevCodeTC-JBM
+  - directory_name: ZevaCode-TC-JetMono
     source_filename_prefix: JetBrainsMono
-    target_filename_prefix: ZevCodeTC-JBM-{variant}
+    target_filename_prefix: ZevaCode-TC-{variant}-JetMono
     source_postscript_name: JetBrainsMono
-    target_postscript_name: ZevCodeTC-JBM-{variant}
+    target_postscript_name: ZevaCode-TC-{variant}-JetMono
     source_family_name: JetBrains Mono
-    target_family_name: ZevCodeTC-JBM-{variant}
+    target_family_name: ZevaCode {variant} JetMono
     files:
-      - glob: source_fonts/jetbrains_mono_static/JetBrainsMono-*.ttf
+      - glob: JetBrainsMono-*.ttf
   - skip: true
-    directory_name: ZevCodeTC-JBMNL
+    directory_name: ZevaCode-TC-JetMonoNL
     source_filename_prefix: JetBrainsMonoNL
-    target_filename_prefix: ZevCodeTC-JBMNL-{variant}
+    target_filename_prefix: ZevaCode-TC-{variant}-JetMonoNL
     source_postscript_name: JetBrainsMonoNL
-    target_postscript_name: ZevCodeTC-JBMNL-{variant}
+    target_postscript_name: ZevaCode-TC-{variant}-JetMonoNL
     source_family_name: JetBrains Mono NL
-    target_family_name: ZevCodeTC-JBMNL-{variant}
+    target_family_name: ZevaCode {variant} JetMonoNL
     files:
-      - glob: source_fonts/jetbrains_mono_static/JetBrainsMonoNL-*.ttf
+      - glob: JetBrainsMonoNL-*.ttf
 variants:
-  S:
+  Og:
     cjk_axis: "wdth=100,IDSP=0"
     italic:
       cjk_transform: "1,0,0.15838,1,0,0"
     normalize_width:
       - codepoints: [[A960, A97F], [AC00, D7AF], [D7B0, D7FF]]
         width: 1000
-  B:
+  Al:
     # Monospace glyph width is 600.
     cjk_axis: "wdth=105,IDSP=150"
     italic:

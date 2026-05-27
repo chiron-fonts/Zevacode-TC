@@ -1,107 +1,135 @@
 [
   {
-    "id": "jetbrains-mono-vf-s",
+    "id": "jetbrains-mono-vf-og",
     "profile": "profiles/jetbrains-mono_vf.yaml",
-    "variant": "S",
+    "variant": "Og",
     "family": "",
-    "code": "JBM"
+    "code": ""
   },
   {
-    "id": "jetbrains-mono-vf-b",
+    "id": "jetbrains-mono-vf-al",
     "profile": "profiles/jetbrains-mono_vf.yaml",
-    "variant": "B",
+    "variant": "Al",
     "family": "",
-    "code": "JBM"
+    "code": ""
   },
   {
-    "id": "jetbrains-mono-static-s",
+    "id": "cascadia-code-vf-og",
+    "profile": "profiles/cascadia-code_vf.yaml",
+    "variant": "Og",
+    "family": "",
+    "code": ""
+  },
+  {
+    "id": "cascadia-code-vf-al",
+    "profile": "profiles/cascadia-code_vf.yaml",
+    "variant": "Al",
+    "family": "",
+    "code": ""
+  },
+  {
+    "id": "monaspace-vf-og",
+    "profile": "profiles/monaspace_vf.yaml",
+    "variant": "Og",
+    "family": "",
+    "code": ""
+  },
+  {
+    "id": "monaspace-vf-al",
+    "profile": "profiles/monaspace_vf.yaml",
+    "variant": "Al",
+    "family": "",
+    "code": ""
+  },
+  {
+    "id": "jetbrains-mono-static-og",
     "profile": "profiles/jetbrains-mono_static.yaml",
-    "variant": "S",
-    "family": "ZevCodeTC-JBM",
+    "variant": "Og",
+    "family": "ZevaCode-TC-JetMono",
     "code": ""
   },
   {
-    "id": "jetbrains-mono-static-b",
+    "id": "jetbrains-mono-static-al",
     "profile": "profiles/jetbrains-mono_static.yaml",
-    "variant": "B",
-    "family": "ZevCodeTC-JBM",
+    "variant": "Al",
+    "family": "ZevaCode-TC-JetMono",
     "code": ""
   },
   {
-    "id": "cascadia-code-static-ccd-s",
+    "id": "cascadia-code-static-cascode-og",
     "profile": "profiles/cascadia-code_static.yaml",
-    "variant": "S",
-    "family": "ZevCodeTC-CCD",
+    "variant": "Og",
+    "family": "ZevaCode-TC-CasCode",
     "code": ""
   },
   {
-    "id": "cascadia-code-static-ccd-b",
+    "id": "cascadia-code-static-cascode-al",
     "profile": "profiles/cascadia-code_static.yaml",
-    "variant": "B",
-    "family": "ZevCodeTC-CCD",
+    "variant": "Al",
+    "family": "ZevaCode-TC-CasCode",
     "code": ""
   },
   {
-    "id": "cascadia-code-static-cmd-s",
+    "id": "cascadia-code-static-casmono-og",
     "profile": "profiles/cascadia-code_static.yaml",
-    "variant": "S",
-    "family": "ZevCodeTC-CMD",
+    "variant": "Og",
+    "family": "ZevaCode-TC-CasMono",
     "code": ""
   },
   {
-    "id": "cascadia-code-static-cmd-b",
+    "id": "cascadia-code-static-casmono-al",
     "profile": "profiles/cascadia-code_static.yaml",
-    "variant": "B",
-    "family": "ZevCodeTC-CMD",
+    "variant": "Al",
+    "family": "ZevaCode-TC-CasMono",
     "code": ""
   },
   {
-    "id": "mona-sans-mono-static-s",
+    "id": "mona-sans-mono-static-og",
     "profile": "profiles/mona-sans-mono_static.yaml",
-    "variant": "S",
-    "family": "ZevCodeTC-MSM",
+    "variant": "Og",
+    "family": "ZevaCode-TC-Gima",
     "code": ""
   },
   {
-    "id": "mona-sans-mono-static-b",
+    "id": "mona-sans-mono-static-al",
     "profile": "profiles/mona-sans-mono_static.yaml",
-    "variant": "B",
-    "family": "ZevCodeTC-MSM",
+    "variant": "Al",
+    "family": "ZevaCode-TC-Gima",
     "code": ""
   },
   {
-    "id": "mona-sans-mono-semicondensed-static-b",
+    "id": "mona-sans-mono-semicondensed-static-al",
     "profile": "profiles/mona-sans-mono-semicondensed_static.yaml",
-    "variant": "B",
-    "family": "ZevCodeTC-MSM-SemiCondensed",
+    "variant": "Al",
+    "family": "ZevaCode-TC-Gima-SemiCondensed",
     "code": ""
   },
   {
-    "id": "monaspace-static-gma-s",
+    "id": "monaspace-static-monaarg-og",
     "profile": "profiles/monaspace_static.yaml",
-    "variant": "S",
-    "family": "ZevCodeTC-GMA",
+    "variant": "Og",
+    "family": "ZevaCode-TC-GimaSpaceArg",
     "code": ""
   },
   {
-    "id": "monaspace-static-gma-b",
+    "id": "monaspace-static-monaarg-al",
     "profile": "profiles/monaspace_static.yaml",
-    "variant": "B",
-    "family": "ZevCodeTC-GMA",
+    "variant": "Al",
+    "family": "ZevaCode-TC-GimaSpaceArg",
     "code": ""
   },
   {
-    "id": "monaspace-static-gmn-s",
+    "id": "monaspace-static-monaneo-og",
     "profile": "profiles/monaspace_static.yaml",
-    "variant": "S",
-    "family": "ZevCodeTC-GMN",
+    "variant": "Og",
+    "family": "ZevaCode-TC-GimaSpaceNeo",
     "code": ""
   },
   {
-    "id": "monaspace-static-gmn-b",
+    "id": "monaspace-static-monaneo-al",
     "profile": "profiles/monaspace_static.yaml",
-    "variant": "B",
-    "family": "ZevCodeTC-GMN",
+    "variant": "Al",
+    "family": "ZevaCode-TC-GimaSpaceNeo",
     "code": ""
   }
 ]

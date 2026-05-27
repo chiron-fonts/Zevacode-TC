@@ -22,6 +22,17 @@ STATIC_MERGE_SCRIPT = REPO_ROOT / "merge_static_cjk.py"
 PROFILE_TYPE_VARIABLE = "variable"
 PROFILE_TYPE_STATIC = "static"
 CJK_CACHE_DIR_ENV = "ZEVCODE_CJK_CACHE_DIR"
+RESERVED_REPO_ROOT_NAMES = {
+    "assets",
+    "doc",
+    "embed_fonts",
+    "master_config",
+    "out",
+    "profiles",
+    "publish_templates",
+    "PublishRepo",
+    "source_fonts",
+}
 
 DISPLAY_WEIGHT_NAMES = {
     "thin": "Thin",
@@ -78,6 +89,34 @@ def repo_path(value: str | None, label: str, *, must_exist: bool = True) -> Path
     return path
 
 
+def profile_source_root(profile: dict, label: str, *, must_exist: bool = False) -> Path | None:
+    source_root = profile.get("source_root")
+    if source_root is None:
+        return None
+    if not isinstance(source_root, str) or not source_root:
+        raise ValueError(f"{label} source_root must be a non-empty string.")
+    return repo_path(source_root, f"source_root for {label}", must_exist=must_exist)
+
+
+def resolve_profile_source_path(profile: dict, value: str | None, label: str, *, must_exist: bool = True) -> Path | None:
+    if value is None:
+        return None
+
+    raw_path = Path(value)
+    if raw_path.is_absolute():
+        resolved_path = raw_path
+    else:
+        source_root = profile_source_root(profile, label, must_exist=False)
+        use_source_root = bool(source_root) and (
+            not raw_path.parts or raw_path.parts[0] not in RESERVED_REPO_ROOT_NAMES
+        )
+        resolved_path = (source_root / raw_path) if use_source_root else (REPO_ROOT / raw_path)
+
+    if must_exist and not resolved_path.exists():
+        raise FileNotFoundError(f"{label} not found: {resolved_path}")
+    return resolved_path
+
+
 def repo_output_path(path: Path) -> str:
     try:
         return str(path.relative_to(REPO_ROOT))
@@ -101,43 +140,100 @@ def merge_variant_config(file_spec: dict, variant_name: str, variant_spec: dict)
     return merged
 
 
-def build_output_family_name(family_code: str, variant_name: str) -> str:
-    return f"ZevCodeTC-{family_code}-{variant_name}"
+def variable_family_label(family_spec: dict) -> str:
+    return str(
+        family_spec.get("name")
+        or family_spec.get("source_filename")
+        or family_spec.get("target_filename")
+        or "<unnamed variable family>"
+    )
 
 
-def build_output_file_name(family_name: str, italic: bool) -> str:
-    return f"{family_name}{'-Italic' if italic else ''}.ttf"
+def render_variable_template(template: str, *, label: str, variant_name: str) -> str:
+    if not isinstance(template, str) or not template:
+        raise ValueError(f"{label} must be a non-empty string.")
+    try:
+        rendered = template.format(variant=variant_name)
+    except KeyError as exc:
+        missing = exc.args[0]
+        raise ValueError(
+            f"{label} uses unsupported placeholder {{{missing}}}; allowed placeholders are {{variant}}."
+        ) from exc
+    if not rendered:
+        raise ValueError(f"{label} must not resolve to an empty string.")
+    return rendered
 
 
-def build_report_file_name(family_name: str, italic: bool) -> str:
-    return f"{family_name}{'-Italic' if italic else ''}-merge-report.json"
+def build_variable_report_file_name(target_filename: str) -> str:
+    stem = Path(target_filename).stem
+    if not stem:
+        raise ValueError(f"Variable target_filename {target_filename!r} must resolve to a non-empty stem.")
+    return f"{stem}-merge-report.json"
 
 
 def build_variable_merge_command(
     profile_path: Path,
     profile: dict,
-    file_spec: dict,
+    family_spec: dict,
     variant_name: str,
     variant_spec: dict,
     blocks_override: Path | None,
     output_dir: Path,
     report_dir: Path,
 ) -> list[str]:
-    require_keys(profile, ("cjk_font", "blocks", "files", "variants"), profile_path.name)
-    require_keys(file_spec, ("name", "target", "family_code"), f"file {file_spec!r}")
+    require_keys(profile, ("cjk_font", "blocks", "directory", "families", "variants"), profile_path.name)
+    require_keys(family_spec, ("name", "source_filename", "target_filename"), f"variable family {family_spec!r}")
 
-    family_code = file_spec["family_code"]
-    merged_variant = merge_variant_config(file_spec, variant_name, variant_spec)
-    output_family_name = build_output_family_name(family_code, variant_name)
-    target_path = repo_path(file_spec["target"], f"Target for file {file_spec['name']}")
+    merged_variant = merge_variant_config(family_spec, variant_name, variant_spec)
+    directory_name = profile.get("directory")
+    if not isinstance(directory_name, str) or not directory_name:
+        raise ValueError(f"{profile_path.name} must define a non-empty directory.")
+
+    target_path = resolve_profile_source_path(
+        profile,
+        family_spec["source_filename"],
+        f"Target for variable family {family_spec['name']}",
+    )
     cjk_path = repo_path(profile["cjk_font"], "CJK source font")
     blocks_path = blocks_override or repo_path(profile["blocks"], "Unicode block list")
 
     if target_path is None or cjk_path is None or blocks_path is None:
         raise ValueError("Target, CJK font, and blocks path must be defined.")
 
-    output_path = output_dir / build_output_file_name(output_family_name, bool(file_spec.get("italic")))
-    report_path = report_dir / build_report_file_name(output_family_name, bool(file_spec.get("italic")))
+    output_filename = render_variable_template(
+        family_spec["target_filename"],
+        label=f"target_filename for variable family {family_spec['name']}",
+        variant_name=variant_name,
+    )
+    target_family_name = None
+    if family_spec.get("target_family_name") is not None:
+        target_family_name = render_variable_template(
+            family_spec["target_family_name"],
+            label=f"target_family_name for variable family {family_spec['name']}",
+            variant_name=variant_name,
+        )
+    target_postscript_name = None
+    if family_spec.get("target_postscript_name") is not None:
+        target_postscript_name = render_variable_template(
+            family_spec["target_postscript_name"],
+            label=f"target_postscript_name for variable family {family_spec['name']}",
+            variant_name=variant_name,
+        )
+    source_family_name = family_spec.get("source_family_name")
+    source_postscript_name = family_spec.get("source_postscript_name")
+    if bool(source_family_name) != bool(target_family_name):
+        raise ValueError(
+            f"Variable build for {family_spec['source_filename']} must define source_family_name and target_family_name together."
+        )
+    if bool(source_postscript_name) != bool(target_postscript_name):
+        raise ValueError(
+            f"Variable build for {family_spec['source_filename']} must define source_postscript_name and target_postscript_name together."
+        )
+
+    family_dir = output_dir / "variable" / directory_name
+    report_family_dir = report_dir / "variable" / directory_name
+    output_path = family_dir / output_filename
+    report_path = report_family_dir / build_variable_report_file_name(output_filename)
 
     command = [
         sys.executable,
@@ -148,13 +244,17 @@ def build_variable_merge_command(
         repo_output_path(cjk_path),
         "--blocks",
         repo_output_path(blocks_path),
-        "--font-name",
-        output_family_name,
         "--out",
         repo_output_path(output_path),
         "--report",
         repo_output_path(report_path),
     ]
+    if source_family_name:
+        command.extend(["--source-family-name", source_family_name, "--target-family-name", target_family_name])
+    if source_postscript_name:
+        command.extend(
+            ["--source-postscript-name", source_postscript_name, "--target-postscript-name", target_postscript_name]
+        )
 
     if "master_config" in merged_variant:
         master_config_path = repo_path(merged_variant["master_config"], f"master_config for variant {variant_name}")
@@ -280,7 +380,7 @@ def render_static_template(template: str, *, label: str, variant_name: str, weig
 
 
 def skip_matches_selected_static_files(
-    profile_path: Path,
+    profile: dict,
     family_label: str,
     file_spec: dict,
     selected_files: set[str],
@@ -293,11 +393,11 @@ def skip_matches_selected_static_files(
         selectable_names.add(str(file_spec["name"]))
 
     if "glob" in file_spec:
-        glob_path = repo_path(file_spec["glob"], f"glob in family {family_label}", must_exist=False)
+        glob_path = resolve_profile_source_path(profile, file_spec["glob"], f"glob in family {family_label}", must_exist=False)
         if glob_path is not None:
             selectable_names.update(path.stem for path in glob_path.parent.glob(glob_path.name) if path.is_file())
     else:
-        target_path = repo_path(file_spec.get("target"), f"target in family {family_label}", must_exist=False)
+        target_path = resolve_profile_source_path(profile, file_spec.get("target"), f"target in family {family_label}", must_exist=False)
         if target_path is not None:
             selectable_names.add(target_path.stem)
 
@@ -306,6 +406,7 @@ def skip_matches_selected_static_files(
 
 def expand_static_family_files(
     profile_path: Path,
+    profile: dict,
     family_spec: dict,
     selected_files: set[str],
 ) -> tuple[list[dict], int]:
@@ -321,20 +422,20 @@ def expand_static_family_files(
     for entry in files:
         file_spec = normalize_static_file_spec(entry, family_spec)
         if is_skipped(file_spec):
-            if skip_matches_selected_static_files(profile_path, family_label, file_spec, selected_files):
+            if skip_matches_selected_static_files(profile, family_label, file_spec, selected_files):
                 skipped_selected_entries += 1
                 log_status(f"Skipping static file entry {static_file_label(file_spec, family_label)} due to skip: true")
             continue
         targets: list[Path] = []
         if "glob" in file_spec:
-            glob_path = repo_path(file_spec["glob"], f"glob in family {family_label}", must_exist=False)
+            glob_path = resolve_profile_source_path(profile, file_spec["glob"], f"glob in family {family_label}", must_exist=False)
             if glob_path is None:
                 raise ValueError(f"family {family_label} defines an empty glob.")
             targets = sorted(path for path in glob_path.parent.glob(glob_path.name) if path.is_file())
             if not targets:
                 raise FileNotFoundError(f"No files matched glob {file_spec['glob']!r} in family {family_label}.")
         else:
-            target_path = repo_path(file_spec.get("target"), f"target in family {family_label}")
+            target_path = resolve_profile_source_path(profile, file_spec.get("target"), f"target in family {family_label}")
             if target_path is None:
                 raise ValueError(f"family {family_label} includes a file entry without target/glob.")
             targets = [target_path]
@@ -511,51 +612,68 @@ def build_variable_commands(
     output_dir: Path,
     report_dir: Path,
 ) -> tuple[list[list[str]], bool]:
-    require_keys(profile, ("cjk_font", "blocks", "files", "variants"), profile_path.name)
-    files = profile["files"]
+    require_keys(profile, ("cjk_font", "blocks", "directory", "families", "variants"), profile_path.name)
+    families = profile["families"]
     variants = profile["variants"]
-    if not isinstance(files, list) or not files:
-        raise ValueError(f"{profile_path.name} must define a non-empty files list.")
+    directory_name = profile.get("directory")
+    if not isinstance(directory_name, str) or not directory_name:
+        raise ValueError(f"{profile_path.name} must define a non-empty directory.")
+    if not isinstance(families, list) or not families:
+        raise ValueError(f"{profile_path.name} must define a non-empty families list.")
     if not isinstance(variants, dict) or not variants:
         raise ValueError(f"{profile_path.name} must define a non-empty variants mapping.")
 
     selected_files = set(args.file or [])
-    selected_codes = set(args.code or [])
+    selected_families = set(args.family or [])
     selected_variants = set(args.variant or [])
 
     commands = []
     skipped_selected_entries = 0
     selected_active_entries = 0
-    for file_spec in files:
-        if is_skipped(file_spec):
-            if (
-                (not selected_files or file_spec.get("name") in selected_files)
-                and (not selected_codes or file_spec.get("family_code") in selected_codes)
-            ):
+    for family_spec in families:
+        family_label = variable_family_label(family_spec)
+        family_name = family_spec.get("name")
+        family_selected = not selected_families or family_name in selected_families
+        if is_skipped(family_spec):
+            if family_selected:
                 skipped_selected_entries += 1
-                log_status(f"Skipping variable file entry {variable_file_label(file_spec)} due to skip: true")
+                log_status(f"Skipping variable family {family_label} due to skip: true")
             continue
-        file_name = file_spec.get("name")
-        if not file_name:
-            raise ValueError(f"Each file entry in {profile_path.name} must define a name.")
-        family_code = file_spec.get("family_code")
-        if not family_code:
-            raise ValueError(f"Each file entry in {profile_path.name} must define a family_code.")
-        if selected_files and file_name not in selected_files:
+        if not family_name:
+            raise ValueError(f"Each variable family in {profile_path.name} must define a name.")
+        if selected_families and family_name not in selected_families:
             continue
-        if selected_codes and family_code not in selected_codes:
-            continue
-        selected_active_entries += 1
+        target_path = resolve_profile_source_path(
+            profile,
+            family_spec.get("source_filename"),
+            f"Target for variable family {family_name}",
+        )
+        if target_path is None:
+            raise ValueError(f"Each variable family in {profile_path.name} must define a source_filename.")
         for variant_name, variant_spec in variants.items():
             if selected_variants and variant_name not in selected_variants:
                 continue
             if not isinstance(variant_spec, dict):
                 raise ValueError(f"variants.{variant_name} must be a mapping.")
+            output_filename = render_variable_template(
+                family_spec.get("target_filename"),
+                label=f"target_filename for variable family {family_name}",
+                variant_name=variant_name,
+            )
+            selectable_names = {
+                family_name,
+                target_path.stem,
+                output_filename,
+                Path(output_filename).stem,
+            }
+            if selected_files and not (selectable_names & selected_files):
+                continue
+            selected_active_entries += 1
             commands.append(
                 build_variable_merge_command(
                     profile_path=profile_path,
                     profile=profile,
-                    file_spec=file_spec,
+                    family_spec=family_spec,
                     variant_name=variant_name,
                     variant_spec=variant_spec,
                     blocks_override=blocks_override,
@@ -603,7 +721,7 @@ def build_static_commands(
             raise ValueError(f"Each static family in {profile_path.name} must define a directory_name.")
         if selected_families and directory_name not in selected_families:
             continue
-        expanded_files, skipped_file_entries = expand_static_family_files(profile_path, family_spec, selected_files)
+        expanded_files, skipped_file_entries = expand_static_family_files(profile_path, profile, family_spec, selected_files)
         skipped_selected_entries += skipped_file_entries
         for file_spec in expanded_files:
             if selected_files and file_spec["selector_name"] not in selected_files and file_spec["target"].stem not in selected_files:
@@ -640,9 +758,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--family",
         action="append",
-        help="Static directory_name to build. Repeat to select multiple families.",
+        help="Family entry name to build. For static profiles this matches directory_name.",
     )
-    parser.add_argument("--code", action="append", help="Variable family code to build. Repeat to select multiple codes.")
     parser.add_argument("--blocks-override", help="Override the profile's blocks file for smoke tests or focused runs.")
     parser.add_argument("--output-dir", default="out", help="Directory for built font files. Default: out")
     parser.add_argument("--report-dir", default="out", help="Directory for JSON reports. Default: out")
@@ -689,7 +806,7 @@ def main() -> None:
             )
             log_status(f"Finished building profile {profile_path.name} ({format_elapsed(monotonic() - build_start)} elapsed)")
             return
-        raise ValueError("No builds selected. Check --variant/--file/--family/--code filters.")
+        raise ValueError("No builds selected. Check --variant/--file/--family filters.")
 
     subprocess_env = os.environ.copy()
     cache_root = subprocess_env.get(CJK_CACHE_DIR_ENV)

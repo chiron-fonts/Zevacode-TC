@@ -1,16 +1,31 @@
 type: variable
 cjk_font: embed_fonts/ZevHeiTC/VAR_TTF/ZevHeiTC-N-VF.ttf
 blocks: assets/unicode_blocks.txt
-files:
+source_root: source_fonts/jetbrains_mono_vf
+downloads:
+  - url: https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip
+    include:
+      - fonts/variable/JetBrainsMono[wght].ttf
+      - fonts/variable/JetBrainsMono-Italic[wght].ttf
+directory: ZevaCode-TC-JetMono-Variable
+families:
   - name: upright
-    target: source_fonts/jetbrains_mono_vf/JetBrainsMono[wght].ttf
-    family_code: JBM
+    source_filename: JetBrainsMono[wght].ttf
+    target_filename: ZevaCode-TC-{variant}-JetMono-Variable.ttf
+    source_postscript_name: JetBrainsMono
+    target_postscript_name: ZevaCode-TC-{variant}-JetMono
+    source_family_name: JetBrains Mono
+    target_family_name: ZevaCode {variant} JetMono Variable
   - name: italic
-    target: source_fonts/jetbrains_mono_vf/JetBrainsMono-Italic[wght].ttf
-    family_code: JBM
+    source_filename: JetBrainsMono-Italic[wght].ttf
     italic: true
+    target_filename: ZevaCode-TC-{variant}-JetMono-Italic-Variable.ttf
+    source_postscript_name: JetBrainsMono
+    target_postscript_name: ZevaCode-TC-{variant}-JetMono
+    source_family_name: JetBrains Mono
+    target_family_name: ZevaCode {variant} JetMono Variable
 variants:
-  S:
+  Og:
     cjk_low: "wght=200,wdth=100,IDSP=0"
     cjk_high: "wght=800,wdth=100,IDSP=0"
     italic:
@@ -18,7 +33,8 @@ variants:
     normalize_width:
       - codepoints: [[A960, A97F], [AC00, D7AF], [D7B0, D7FF]]
         width: 1000
-  B:
+  Al:
+    # Monospace glyph width is 600.
     cjk_low: "wght=200,wdth=110,IDSP=100"
     cjk_high: "wght=800,wdth=110,IDSP=100"
     italic:
