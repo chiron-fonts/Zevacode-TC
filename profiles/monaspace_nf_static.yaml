@@ -1,0 +1,88 @@
+type: static
+cjk_font: embed_fonts/ZevHeiTC/VAR_OTF/ZevHeiTC-N-VF.otf
+blocks: assets/unicode_blocks.txt
+source_root: source_fonts/monaspace_nf_static
+downloads:
+  - url: https://github.com/githubnext/monaspace/releases/download/v1.400/monaspace-nerdfonts-v1.400.zip
+    include:
+      - NerdFonts/*/*.otf
+families:
+  - directory_name: ZevaCode-GimaspaceArgNF
+    target_filename_prefix: ZevaCode-{variant}-GimaspaceArgNF
+    source_filename_prefix: MonaspaceArgonNF
+    source_postscript_name: MonaspaceArgonNF
+    target_postscript_name: ZevaCode-TC-{variant}-GimaspaceArg
+    source_family_name: Monaspace Argon NF
+    target_family_name: ZevaCode {variant} GimaspaceArg NF
+    ttf_companion: true
+    files:
+      - MonaspaceArgonNF-Regular.otf
+      - MonaspaceArgonNF-Italic.otf
+      - MonaspaceArgonNF-ExtraLight.otf
+      - MonaspaceArgonNF-ExtraLightItalic.otf
+      - MonaspaceArgonNF-Light.otf
+      - MonaspaceArgonNF-LightItalic.otf
+      - MonaspaceArgonNF-Medium.otf
+      - MonaspaceArgonNF-MediumItalic.otf
+      - MonaspaceArgonNF-SemiBold.otf
+      - MonaspaceArgonNF-SemiBoldItalic.otf
+      - MonaspaceArgonNF-Bold.otf
+      - MonaspaceArgonNF-BoldItalic.otf
+      - MonaspaceArgonNF-ExtraBold.otf
+      - MonaspaceArgonNF-ExtraBoldItalic.otf
+  - directory_name: ZevaCode-GimaspaceNeoNF
+    target_filename_prefix: ZevaCode-{variant}-GimaspaceNeoNF
+    source_filename_prefix: MonaspaceNeonNF
+    source_postscript_name: MonaspaceNeonNF
+    target_postscript_name: ZevaCode-TC-{variant}-GimaspaceNeoNF
+    source_family_name: Monaspace Neon
+    target_family_name: ZevaCode {variant} GimaspaceNeo NF
+    ttf_companion: true
+    files:
+      - MonaspaceNeonNF-Regular.otf
+      - MonaspaceNeonNF-Italic.otf
+      - MonaspaceNeonNF-ExtraLight.otf
+      - MonaspaceNeonNF-ExtraLightItalic.otf
+      - MonaspaceNeonNF-Light.otf
+      - MonaspaceNeonNF-LightItalic.otf
+      - MonaspaceNeonNF-Medium.otf
+      - MonaspaceNeonNF-MediumItalic.otf
+      - MonaspaceNeonNF-SemiBold.otf
+      - MonaspaceNeonNF-SemiBoldItalic.otf
+      - MonaspaceNeonNF-Bold.otf
+      - MonaspaceNeonNF-BoldItalic.otf
+      - MonaspaceNeonNF-ExtraBold.otf
+      - MonaspaceNeonNF-ExtraBoldItalic.otf
+variants:
+  Og:
+    cjk_axis: "wdth=100,IDSP=0"
+    cjk_transform: "2,0,0,2,0,5"
+    italic:
+      cjk_transform: "2,0,0.36,2,0,5"
+    normalize_width:
+      - codepoints: [[A960, A97F], [AC00, D7AF], [D7B0, D7FF]]
+        width: 1000
+  Al:
+    # Monospace glyph width is 1240 :\
+    cjk_axis: "wdth=105,IDSP=190"
+    cjk_transform: "2,0,0,2,0,5"
+    italic:
+      cjk_transform: "2,0,0.36,2,0,5"
+    normalize_width:
+      - codepoints: [[A960, A97F], [AC00, D7AF], [D7B0, D7FF]]
+        width: 1240
+weights:
+  extralight:
+    cjk_axis_override: "wght=300"
+  light:
+    cjk_axis_override: "wght=365"
+  regular:
+    cjk_axis_override: "wght=450"
+  medium:
+    cjk_axis_override: "wght=550"
+  semibold:
+    cjk_axis_override: "wght=650"
+  bold:
+    cjk_axis_override: "wght=750"
+  extrabold:
+    cjk_axis_override: "wght=850"

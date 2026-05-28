@@ -98,28 +98,28 @@
     "code": ""
   },
   {
-    "id": "cascadia-code-nl-static-cascode-og",
+    "id": "cascadia-code-nf-static-cascode-og",
     "profile": "profiles/cascadia-code_static.yaml",
     "variant": "Og",
     "family": "ZevaCode-CasCodeNF",
     "code": ""
   },
   {
-    "id": "cascadia-code-nl-static-cascode-al",
+    "id": "cascadia-code-nf-static-cascode-al",
     "profile": "profiles/cascadia-code_static.yaml",
     "variant": "Al",
     "family": "ZevaCode-CasCodeNF",
     "code": ""
   },
   {
-    "id": "cascadia-code-nl-static-casmono-og",
+    "id": "cascadia-code-nf-static-casmono-og",
     "profile": "profiles/cascadia-code_static.yaml",
     "variant": "Og",
     "family": "ZevaCode-CasMonoNF",
     "code": ""
   },
   {
-    "id": "cascadia-code-nl-static-casmono-al",
+    "id": "cascadia-code-nf-static-casmono-al",
     "profile": "profiles/cascadia-code_static.yaml",
     "variant": "Al",
     "family": "ZevaCode-CasMonoNF",
@@ -172,6 +172,34 @@
     "profile": "profiles/monaspace_static.yaml",
     "variant": "Al",
     "family": "ZevaCode-GimaspaceNeo",
+    "code": ""
+  },
+  {
+    "id": "monaspace-static-monaarg-nf-og",
+    "profile": "profiles/monaspace_nf_static.yaml",
+    "variant": "Og",
+    "family": "ZevaCode-GimaspaceArgNF",
+    "code": ""
+  },
+  {
+    "id": "monaspace-static-monaarg-nf-al",
+    "profile": "profiles/monaspace_nf_static.yaml",
+    "variant": "Al",
+    "family": "ZevaCode-GimaspaceArgNF",
+    "code": ""
+  },
+  {
+    "id": "monaspace-static-monaneo-nf-og",
+    "profile": "profiles/monaspace_nf_static.yaml",
+    "variant": "Og",
+    "family": "ZevaCode-GimaspaceNeoNF",
+    "code": ""
+  },
+  {
+    "id": "monaspace-static-monaneo-nf-al",
+    "profile": "profiles/monaspace_nf_static.yaml",
+    "variant": "Al",
+    "family": "ZevaCode-GimaspaceNeoNF",
     "code": ""
   }
 ]
