@@ -7,9 +7,10 @@ downloads:
     include:
       - otf/static/*.otf
 families:
-  - directory_name: ZevaCode-TC-CasCode
+  # Standard
+  - directory_name: ZevaCode-CasCode
     source_filename_prefix: CascadiaCode
-    target_filename_prefix: ZevaCode-TC-{variant}-CasCode
+    target_filename_prefix: ZevaCode-{variant}-CasCode
     source_postscript_name: CascadiaCode
     target_postscript_name: ZevaCode-TC-{variant}-CasCode
     source_family_name: Cascadia Code
@@ -17,31 +18,9 @@ families:
     ttf_companion: true
     files:
       - glob: CascadiaCode-*.otf
-  - skip: true
-    directory_name: ZevaCode-TC-CasCodeNF
-    source_filename_prefix: CascadiaCodeNF
-    target_filename_prefix: ZevaCode-TC-{variant}-CasCodeNF
-    source_postscript_name: CascadiaCodeNF
-    target_postscript_name: ZevaCode-TC-{variant}-CasCodeNF
-    source_family_name: Cascadia Code NF
-    target_family_name: ZevaCode {variant} CasCodeNF
-    ttf_companion: true
-    files:
-      - glob: CascadiaCodeNF-*.otf
-  - skip: true
-    directory_name: ZevaCode-TC-CasCodePL
-    source_filename_prefix: CascadiaCodePL
-    target_filename_prefix: ZevaCode-TC-{variant}-CasCodePL
-    source_postscript_name: CascadiaCodePL
-    target_postscript_name: ZevaCode-TC-{variant}-CasCodePL
-    source_family_name: Cascadia Code PL
-    target_family_name: ZevaCode {variant} CasCodePL
-    ttf_companion: true
-    files:
-      - glob: CascadiaCodePL-*.otf
-  - directory_name: ZevaCode-TC-CasMono
+  - directory_name: ZevaCode-CasMono
     source_filename_prefix: CascadiaMono
-    target_filename_prefix: ZevaCode-TC-{variant}-CasMono
+    target_filename_prefix: ZevaCode-{variant}-CasMono
     source_postscript_name: CascadiaMono
     target_postscript_name: ZevaCode-TC-{variant}-CasMono
     source_family_name: Cascadia Code Mono
@@ -49,10 +28,20 @@ families:
     ttf_companion: true
     files:
       - glob: CascadiaMono-*.otf
-  - skip: true
-    directory_name: ZevaCode-TC-CasMonoNF
+  # NerdFonts
+  - directory_name: ZevaCode-CasCodeNF
+    source_filename_prefix: CascadiaCodeNF
+    target_filename_prefix: ZevaCode-{variant}-CasCodeNF
+    source_postscript_name: CascadiaCodeNF
+    target_postscript_name: ZevaCode-TC-{variant}-CasCodeNF
+    source_family_name: Cascadia Code NF
+    target_family_name: ZevaCode {variant} CasCodeNF
+    ttf_companion: true
+    files:
+      - glob: CascadiaCodeNF-*.otf
+  - directory_name: ZevaCode-CasMonoNF
     source_filename_prefix: CascadiaMonoNF
-    target_filename_prefix: ZevaCode-TC-{variant}-CasMonoNF
+    target_filename_prefix: ZevaCode-{variant}-CasMonoNF
     source_postscript_name: CascadiaMonoNF
     target_postscript_name: ZevaCode-TC-{variant}-CasMonoNF
     source_family_name: Cascadia Code Mono NF
@@ -60,10 +49,22 @@ families:
     ttf_companion: true
     files:
       - glob: CascadiaMonoNF-*.otf
+  # Powerline
   - skip: true
-    directory_name: ZevaCode-TC-CasMonoPL
+    directory_name: ZevaCode-CasCodePL
+    source_filename_prefix: CascadiaCodePL
+    target_filename_prefix: ZevaCode-{variant}-CasCodePL
+    source_postscript_name: CascadiaCodePL
+    target_postscript_name: ZevaCode-TC-{variant}-CasCodePL
+    source_family_name: Cascadia Code PL
+    target_family_name: ZevaCode {variant} CasCodePL
+    ttf_companion: true
+    files:
+      - glob: CascadiaCodePL-*.otf
+  - skip: true
+    directory_name: ZevaCode-CasMonoPL
     source_filename_prefix: CascadiaMonoPL
-    target_filename_prefix: ZevaCode-TC-{variant}-CasMonoPL
+    target_filename_prefix: ZevaCode-{variant}-CasMonoPL
     source_postscript_name: CascadiaMonoPL
     target_postscript_name: ZevaCode-TC-{variant}-CasMonoPL
     source_family_name: Cascadia Code Mono PL
@@ -78,7 +79,7 @@ variants:
     italic:
       cjk_transform: "2,0,0.31676,2,0,5"
     normalize_width:
-      - codepoints: [[A960, A97F], [AC00, D7AF], [D7B0, D7FF]]
+      - codepoints: [ [ A960, A97F ], [ AC00, D7AF ], [ D7B0, D7FF ] ]
         width: 1000
   Al:
     # Monospace glyph width is 1200.
@@ -87,7 +88,7 @@ variants:
     italic:
       cjk_transform: "2,0,0.31676,2,0,5"
     normalize_width:
-      - codepoints: [[A960, A97F], [AC00, D7AF], [D7B0, D7FF]]
+      - codepoints: [ [ A960, A97F ], [ AC00, D7AF ], [ D7B0, D7FF ] ]
         width: 1200
 weights:
   extralight:

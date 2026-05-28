@@ -6,18 +6,18 @@ downloads:
   - url: https://github.com/githubnext/monaspace/releases/download/v1.400/monaspace-variable-v1.400.zip
     include:
       - Variable Fonts/**/*.ttf
-directory: ZevaCode-TC-Gimaspace-Variable
+directory: ZevaCode-Gimaspace-Variable
 families:
   - name: argon
     source_filename: Monaspace Argon Var.ttf
-    target_filename: ZevaCode-TC-{variant}-GimaspaceArg-Variable.ttf
+    target_filename: ZevaCode-{variant}-GimaspaceArg-Variable.ttf
     source_postscript_name: MonaspaceArgonVar
     target_postscript_name: ZevaCode-TC-{variant}-GimaspaceArg
     source_family_name: Monaspace Argon Var
     target_family_name: ZevaCode {variant} GimaspaceArg Variable
   - name: neon
     source_filename: Monaspace Neon Var.ttf
-    target_filename: ZevaCode-TC-{variant}-GimaspaceNeo-Variable.ttf
+    target_filename: ZevaCode-{variant}-GimaspaceNeo-Variable.ttf
     source_postscript_name: MonaspaceNeonVar
     target_postscript_name: ZevaCode-TC-{variant}-GimaspaceNeo
     source_family_name: Monaspace Neon Var

@@ -7,9 +7,9 @@ downloads:
     include:
       - fonts/static/otf/MonaSansMonoSemiCondensed*.otf
 families:
-  - directory_name: ZevaCode-TC-Gima-SemiCondensed
+  - directory_name: ZevaCode-Gima-SemiCondensed
     source_filename_prefix: MonaSansMonoSemiCondensed
-    target_filename_prefix: ZevaCode-TC-{variant}-Gima-SemiCondensed
+    target_filename_prefix: ZevaCode-{variant}-Gima-SemiCondensed
     source_postscript_name: MonaSansMonoSemiCondensed
     target_postscript_name: ZevaCode-TC-{variant}-Gima-SemiCondensed
     source_family_name: Mona Sans Mono SemiCondensed

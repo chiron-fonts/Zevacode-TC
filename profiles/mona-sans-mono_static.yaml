@@ -7,11 +7,11 @@ downloads:
     include:
       - fonts/static/otf/MonaSansMono*.otf
 families:
-  - directory_name: ZevaCode-TC-Gima
+  - directory_name: ZevaCode-Gima
     source_filename_prefix: MonaSansMono
-    target_filename_prefix: ZevaCode-TC-{variant}-Gima
+    target_filename_prefix: ZevaCode-{variant}-Gima
     source_postscript_name: MonaSansMono
-    target_postscript_name: ZevaCode-TC-{variant}-Gima
+    target_postscript_name: ZevaCode-{variant}-Gima
     source_family_name: Mona Sans Mono
     target_family_name: ZevaCode {variant} Gima
     ttf_companion: true

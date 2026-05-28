@@ -7,19 +7,18 @@ downloads:
     include:
       - fonts/ttf/*.ttf
 families:
-  - directory_name: ZevaCode-TC-JetMono
+  - directory_name: ZevaCode-JetMono
     source_filename_prefix: JetBrainsMono
-    target_filename_prefix: ZevaCode-TC-{variant}-JetMono
+    target_filename_prefix: ZevaCode-{variant}-JetMono
     source_postscript_name: JetBrainsMono
     target_postscript_name: ZevaCode-TC-{variant}-JetMono
     source_family_name: JetBrains Mono
     target_family_name: ZevaCode {variant} JetMono
     files:
       - glob: JetBrainsMono-*.ttf
-  - skip: true
-    directory_name: ZevaCode-TC-JetMonoNL
+  - directory_name: ZevaCode-JetMonoNL
     source_filename_prefix: JetBrainsMonoNL
-    target_filename_prefix: ZevaCode-TC-{variant}-JetMonoNL
+    target_filename_prefix: ZevaCode-{variant}-JetMonoNL
     source_postscript_name: JetBrainsMonoNL
     target_postscript_name: ZevaCode-TC-{variant}-JetMonoNL
     source_family_name: JetBrains Mono NL

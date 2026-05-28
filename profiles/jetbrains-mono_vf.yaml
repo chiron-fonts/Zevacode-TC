@@ -7,11 +7,11 @@ downloads:
     include:
       - fonts/variable/JetBrainsMono[wght].ttf
       - fonts/variable/JetBrainsMono-Italic[wght].ttf
-directory: ZevaCode-TC-JetMono-Variable
+directory: ZevaCode-JetMono-Variable
 families:
   - name: upright
     source_filename: JetBrainsMono[wght].ttf
-    target_filename: ZevaCode-TC-{variant}-JetMono-Variable.ttf
+    target_filename: ZevaCode-{variant}-JetMono-Variable.ttf
     source_postscript_name: JetBrainsMono
     target_postscript_name: ZevaCode-TC-{variant}-JetMono
     source_family_name: JetBrains Mono
@@ -19,7 +19,7 @@ families:
   - name: italic
     source_filename: JetBrainsMono-Italic[wght].ttf
     italic: true
-    target_filename: ZevaCode-TC-{variant}-JetMono-Italic-Variable.ttf
+    target_filename: ZevaCode-{variant}-JetMono-Italic-Variable.ttf
     source_postscript_name: JetBrainsMono
     target_postscript_name: ZevaCode-TC-{variant}-JetMono
     source_family_name: JetBrains Mono

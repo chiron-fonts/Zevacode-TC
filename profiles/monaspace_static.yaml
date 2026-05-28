@@ -7,13 +7,13 @@ downloads:
     include:
       - Static Fonts/*/*.otf
 families:
-  - directory_name: ZevaCode-TC-GimaSpaceArg
-    target_filename_prefix: ZevaCode-TC-{variant}-GimaSpaceArg
+  - directory_name: ZevaCode-GimaspaceArg
+    target_filename_prefix: ZevaCode-{variant}-GimaspaceArg
     source_filename_prefix: MonaspaceArgon
     source_postscript_name: MonaspaceArgon
-    target_postscript_name: ZevaCode-TC-{variant}-GimaSpaceArg
+    target_postscript_name: ZevaCode-TC-{variant}-GimaspaceArg
     source_family_name: Monaspace Argon
-    target_family_name: ZevaCode {variant} GimaSpaceArg
+    target_family_name: ZevaCode {variant} GimaspaceArg
     ttf_companion: true
     files:
       - MonaspaceArgon-Regular.otf
@@ -30,13 +30,13 @@ families:
       - MonaspaceArgon-BoldItalic.otf
       - MonaspaceArgon-ExtraBold.otf
       - MonaspaceArgon-ExtraBoldItalic.otf
-  - directory_name: ZevaCode-TC-GimaSpaceNeo
-    target_filename_prefix: ZevaCode-TC-{variant}-GimaSpaceNeo
+  - directory_name: ZevaCode-GimaspaceNeo
+    target_filename_prefix: ZevaCode-{variant}-GimaspaceNeo
     source_filename_prefix: MonaspaceNeon
     source_postscript_name: MonaspaceNeon
-    target_postscript_name: ZevaCode-TC-{variant}-GimaSpaceNeo
+    target_postscript_name: ZevaCode-TC-{variant}-GimaspaceNeo
     source_family_name: Monaspace Neon
-    target_family_name: ZevaCode {variant} GimaSpaceNeo
+    target_family_name: ZevaCode {variant} GimaspaceNeo
     ttf_companion: true
     files:
       - MonaspaceNeon-Regular.otf

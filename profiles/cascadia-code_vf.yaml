@@ -6,11 +6,11 @@ downloads:
   - url: https://github.com/microsoft/cascadia-code/releases/download/v2407.24/CascadiaCode-2407.24.zip
     include:
       - ttf/*.ttf
-directory: ZevaCode-TC-CasCode-Variable
+directory: ZevaCode-CasCode-Variable
 families:
   - name: upright
     source_filename: CascadiaCode.ttf
-    target_filename: ZevaCode-TC-{variant}-CasCode-Variable.ttf
+    target_filename: ZevaCode-{variant}-CasCode-Variable.ttf
     source_postscript_name: CascadiaCode
     target_postscript_name: ZevaCode-TC-{variant}-CasCode
     source_family_name: Cascadia Code
@@ -18,14 +18,14 @@ families:
   - name: italic
     source_filename: CascadiaCodeItalic.ttf
     italic: true
-    target_filename: ZevaCode-TC-{variant}-CasCode-Italic-Variable.ttf
+    target_filename: ZevaCode-{variant}-CasCode-Italic-Variable.ttf
     source_postscript_name: CascadiaCode
     target_postscript_name: ZevaCode-TC-{variant}-CasCode
     source_family_name: Cascadia Code
     target_family_name: ZevaCode {variant} CasCode Variable
   - name: upright
     source_filename: CascadiaMono.ttf
-    target_filename: ZevaCode-TC-{variant}-CasMono-Variable.ttf
+    target_filename: ZevaCode-{variant}-CasMono-Variable.ttf
     source_postscript_name: CascadiaMono
     target_postscript_name: ZevaCode-TC-{variant}-CasMono
     source_family_name: Cascadia Mono
@@ -33,7 +33,7 @@ families:
   - name: italic
     source_filename: CascadiaMonoItalic.ttf
     italic: true
-    target_filename: ZevaCode-TC-{variant}-CasMono-Italic-Variable.ttf
+    target_filename: ZevaCode-{variant}-CasMono-Italic-Variable.ttf
     source_postscript_name: CascadiaMono
     target_postscript_name: ZevaCode-TC-{variant}-CasMono
     source_family_name: Cascadia Mono
@@ -42,7 +42,7 @@ families:
 #
 #  - name: upright
 #    source_filename: CascadiaCodeNF.ttf
-#    target_filename: ZevaCode-TC-{variant}-CasCodeNF-Variable.ttf
+#    target_filename: ZevaCode-{variant}-CasCodeNF-Variable.ttf
 #    source_postscript_name: CascadiaCodeNF
 #    target_postscript_name: ZevaCode-TC-{variant}-CasCodeNF
 #    source_family_name: Cascadia Code NF
@@ -50,7 +50,7 @@ families:
 #  - name: italic
 #    source_filename: CascadiaCodeNFItalic.ttf
 #    italic: true
-#    target_filename: ZevaCode-TC-{variant}-CasCodeNF-Italic-Variable.ttf
+#    target_filename: ZevaCode-{variant}-CasCodeNF-Italic-Variable.ttf
 #    source_postscript_name: CascadiaCodeNF
 #    target_postscript_name: ZevaCode-TC-{variant}-CasCodeNF
 #    source_family_name: Cascadia Code NF
@@ -58,7 +58,7 @@ families:
 #
 #  - name: upright
 #    source_filename: CascadiaCodePL.ttf
-#    target_filename: ZevaCode-TC-{variant}-CasCodePL-Variable.ttf
+#    target_filename: ZevaCode-{variant}-CasCodePL-Variable.ttf
 #    source_postscript_name: CascadiaCodePL
 #    target_postscript_name: ZevaCode-TC-{variant}-CasCodePL
 #    source_family_name: Cascadia Code PL
@@ -66,7 +66,7 @@ families:
 #  - name: italic
 #    source_filename: CascadiaCodePLItalic.ttf
 #    italic: true
-#    target_filename: ZevaCode-TC-{variant}-CasCodePL-Italic-Variable.ttf
+#    target_filename: ZevaCode-{variant}-CasCodePL-Italic-Variable.ttf
 #    source_postscript_name: CascadiaCodePL
 #    target_postscript_name: ZevaCode-TC-{variant}-CasCodePL
 #    source_family_name: Cascadia Code PL
@@ -75,7 +75,7 @@ families:
 
 #  - name: upright
 #    source_filename: CascadiaMonoNF.ttf
-#    target_filename: ZevaCode-TC-{variant}-CasMonoNF-Variable.ttf
+#    target_filename: ZevaCode-{variant}-CasMonoNF-Variable.ttf
 #    source_postscript_name: CascadiaMonoNF
 #    target_postscript_name: ZevaCode-TC-{variant}-CasMonoNF
 #    source_family_name: Cascadia Mono NF
@@ -83,7 +83,7 @@ families:
 #  - name: italic
 #    source_filename: CascadiaMonoNFItalic.ttf
 #    italic: true
-#    target_filename: ZevaCode-TC-{variant}-CasMonoNF-Italic-Variable.ttf
+#    target_filename: ZevaCode-{variant}-CasMonoNF-Italic-Variable.ttf
 #    source_postscript_name: CascadiaMonoNF
 #    target_postscript_name: ZevaCode-TC-{variant}-CasMonoNF
 #    source_family_name: Cascadia Mono NF
@@ -91,7 +91,7 @@ families:
 #
 #  - name: upright
 #    source_filename: CascadiaMonoPL.ttf
-#    target_filename: ZevaCode-TC-{variant}-CasMonoPL-Variable.ttf
+#    target_filename: ZevaCode-{variant}-CasMonoPL-Variable.ttf
 #    source_postscript_name: CascadiaMonoPL
 #    target_postscript_name: ZevaCode-TC-{variant}-CasMonoPL
 #    source_family_name: Cascadia Mono PL
@@ -99,7 +99,7 @@ families:
 #  - name: italic
 #    source_filename: CascadiaMonoPLItalic.ttf
 #    italic: true
-#    target_filename: ZevaCode-TC-{variant}-CasMonoPL-Italic-Variable.ttf
+#    target_filename: ZevaCode-{variant}-CasMonoPL-Italic-Variable.ttf
 #    source_postscript_name: CascadiaMonoPL
 #    target_postscript_name: ZevaCode-TC-{variant}-CasMonoPL
 #    source_family_name: Cascadia Mono PL

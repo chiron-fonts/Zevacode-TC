@@ -45,91 +45,133 @@
     "id": "jetbrains-mono-static-og",
     "profile": "profiles/jetbrains-mono_static.yaml",
     "variant": "Og",
-    "family": "ZevaCode-TC-JetMono",
+    "family": "ZevaCode-JetMono",
     "code": ""
   },
   {
     "id": "jetbrains-mono-static-al",
     "profile": "profiles/jetbrains-mono_static.yaml",
     "variant": "Al",
-    "family": "ZevaCode-TC-JetMono",
+    "family": "ZevaCode-JetMono",
+    "code": ""
+  },
+  {
+    "id": "jetbrains-mono-nl-static-og",
+    "profile": "profiles/jetbrains-mono_static.yaml",
+    "variant": "Og",
+    "family": "ZevaCode-JetMonoNL",
+    "code": ""
+  },
+  {
+    "id": "jetbrains-mono-nl-static-al",
+    "profile": "profiles/jetbrains-mono_static.yaml",
+    "variant": "Al",
+    "family": "ZevaCode-JetMonoNL",
     "code": ""
   },
   {
     "id": "cascadia-code-static-cascode-og",
     "profile": "profiles/cascadia-code_static.yaml",
     "variant": "Og",
-    "family": "ZevaCode-TC-CasCode",
+    "family": "ZevaCode-CasCode",
     "code": ""
   },
   {
     "id": "cascadia-code-static-cascode-al",
     "profile": "profiles/cascadia-code_static.yaml",
     "variant": "Al",
-    "family": "ZevaCode-TC-CasCode",
+    "family": "ZevaCode-CasCode",
     "code": ""
   },
   {
     "id": "cascadia-code-static-casmono-og",
     "profile": "profiles/cascadia-code_static.yaml",
     "variant": "Og",
-    "family": "ZevaCode-TC-CasMono",
+    "family": "ZevaCode-CasMono",
     "code": ""
   },
   {
     "id": "cascadia-code-static-casmono-al",
     "profile": "profiles/cascadia-code_static.yaml",
     "variant": "Al",
-    "family": "ZevaCode-TC-CasMono",
+    "family": "ZevaCode-CasMono",
+    "code": ""
+  },
+  {
+    "id": "cascadia-code-nl-static-cascode-og",
+    "profile": "profiles/cascadia-code_static.yaml",
+    "variant": "Og",
+    "family": "ZevaCode-CasCodeNF",
+    "code": ""
+  },
+  {
+    "id": "cascadia-code-nl-static-cascode-al",
+    "profile": "profiles/cascadia-code_static.yaml",
+    "variant": "Al",
+    "family": "ZevaCode-CasCodeNF",
+    "code": ""
+  },
+  {
+    "id": "cascadia-code-nl-static-casmono-og",
+    "profile": "profiles/cascadia-code_static.yaml",
+    "variant": "Og",
+    "family": "ZevaCode-CasMonoNF",
+    "code": ""
+  },
+  {
+    "id": "cascadia-code-nl-static-casmono-al",
+    "profile": "profiles/cascadia-code_static.yaml",
+    "variant": "Al",
+    "family": "ZevaCode-CasMonoNF",
     "code": ""
   },
   {
     "id": "mona-sans-mono-static-og",
     "profile": "profiles/mona-sans-mono_static.yaml",
     "variant": "Og",
-    "family": "ZevaCode-TC-Gima",
+    "family": "ZevaCode-Gima",
     "code": ""
   },
   {
     "id": "mona-sans-mono-static-al",
     "profile": "profiles/mona-sans-mono_static.yaml",
     "variant": "Al",
-    "family": "ZevaCode-TC-Gima",
+    "family": "ZevaCode-Gima",
     "code": ""
   },
   {
     "id": "mona-sans-mono-semicondensed-static-al",
     "profile": "profiles/mona-sans-mono-semicondensed_static.yaml",
     "variant": "Al",
-    "family": "ZevaCode-TC-Gima-SemiCondensed",
+    "family": "ZevaCode-Gima-SemiCondensed",
     "code": ""
   },
   {
     "id": "monaspace-static-monaarg-og",
     "profile": "profiles/monaspace_static.yaml",
     "variant": "Og",
-    "family": "ZevaCode-TC-GimaSpaceArg",
+    "family": "ZevaCode-GimaspaceArg",
     "code": ""
   },
   {
     "id": "monaspace-static-monaarg-al",
     "profile": "profiles/monaspace_static.yaml",
     "variant": "Al",
-    "family": "ZevaCode-TC-GimaSpaceArg",
+    "family": "ZevaCode-GimaspaceArg",
     "code": ""
   },
   {
     "id": "monaspace-static-monaneo-og",
     "profile": "profiles/monaspace_static.yaml",
     "variant": "Og",
-    "family": "ZevaCode-TC-GimaSpaceNeo",
+    "family": "ZevaCode-GimaspaceNeo",
     "code": ""
   },
   {
     "id": "monaspace-static-monaneo-al",
     "profile": "profiles/monaspace_static.yaml",
     "variant": "Al",
-    "family": "ZevaCode-TC-GimaSpaceNeo",
+    "family": "ZevaCode-GimaspaceNeo",
     "code": ""
   }
 ]
